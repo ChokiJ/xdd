@@ -94,14 +94,14 @@ func (sender *Sender) handleJdCookies(handle func(ck *JdCookie)) error {
 
 var codeSignals = []CodeSignal{
 	{
-		Command: []string{"status", "状态"},
+		Command: []string{"/status", "状态"},
 		Admin:   true,
 		Handle: func(sender *Sender) interface{} {
 			return Count()
 		},
 	},
 	{
-		Command: []string{"sign", "打卡", "签到"},
+		Command: []string{"/sign", "打卡", "签到"},
 		Handle: func(sender *Sender) interface{} {
 			//if sender.Type == "tgg" {
 			//	sender.Type = "tg"
@@ -155,13 +155,13 @@ var codeSignals = []CodeSignal{
 		},
 	},
 	{
-		Command: []string{"coin", "许愿币", "余额", "yu", "yue"},
+		Command: []string{"/coin", "许愿币", "余额", "yu", "yue"},
 		Handle: func(sender *Sender) interface{} {
 			return fmt.Sprintf("余额%d", GetCoin(sender.UserID))
 		},
 	},
 	{
-		Command: []string{"qrcode", "扫码", "二维码", "scan"},
+		Command: []string{"/qrcode", "扫码", "二维码", "/scan"},
 		Handle: func(sender *Sender) interface{} {
 			// url := fmt.Sprintf("http://127.0.0.1:%d/api/login/qrcode.png?tp=%s&uid=%d&gid=%d", web.BConfig.Listen.HTTPPort, sender.Type, sender.UserID, sender.ChatID)
 			// if sender.Type == "tgg" {
@@ -176,7 +176,7 @@ var codeSignals = []CodeSignal{
 		},
 	},
 	{
-		Command: []string{"升级", "更新", "update", "upgrade"},
+		Command: []string{"升级", "更新", "/update", "/upgrade"},
 		Admin:   true,
 		Handle: func(sender *Sender) interface{} {
 			if err := Update(sender); err != nil {
@@ -188,7 +188,7 @@ var codeSignals = []CodeSignal{
 		},
 	},
 	{
-		Command: []string{"重启", "reload", "restart", "reboot"},
+		Command: []string{"重启", "/reload", "/restart", "/reboot"},
 		Admin:   true,
 		Handle: func(sender *Sender) interface{} {
 			sender.Reply("小滴滴重启程序")
@@ -197,7 +197,7 @@ var codeSignals = []CodeSignal{
 		},
 	},
 	{
-		Command: []string{"get-ua", "ua"},
+		Command: []string{"/get-ua", "/ua"},
 		Admin:   true,
 		Handle: func(sender *Sender) interface{} {
 			if !sender.IsAdmin {
@@ -212,7 +212,7 @@ var codeSignals = []CodeSignal{
 		},
 	},
 	{
-		Command: []string{"set-ua"},
+		Command: []string{"/set-ua"},
 		Admin:   true,
 		Handle: func(sender *Sender) interface{} {
 			ctt := sender.JoinContens()
@@ -222,7 +222,7 @@ var codeSignals = []CodeSignal{
 		},
 	},
 	{
-		Command: []string{"任务列表"},
+		Command: []string{"任务列表","/tasks"},
 		Admin:   true,
 		Handle: func(_ *Sender) interface{} {
 			rt := ""
@@ -235,7 +235,7 @@ var codeSignals = []CodeSignal{
 		},
 	},
 	{
-		Command: []string{"查询", "query"},
+		Command: []string{"查询", "/query"},
 		Admin:   true,
 		Handle: func(sender *Sender) interface{} {
 			sender.handleJdCookies(func(ck *JdCookie) {
@@ -245,7 +245,7 @@ var codeSignals = []CodeSignal{
 		},
 	},
 	{
-		Command: []string{"发送", "通知", "notify", "send"},
+		Command: []string{"发送", "通知", "/notify", "/send"},
 		Admin:   true,
 		Handle: func(sender *Sender) interface{} {
 			if len(sender.Contents) < 2 {
@@ -388,7 +388,7 @@ var codeSignals = []CodeSignal{
 		},
 	},
 	{
-		Command: []string{"run", "执行", "运行"},
+		Command: []string{"/run", "执行", "运行"},
 		Admin:   true,
 		Handle: func(sender *Sender) interface{} {
 			name := sender.Contents[0]
@@ -414,7 +414,7 @@ var codeSignals = []CodeSignal{
 		},
 	},
 	{
-		Command: []string{"优先级", "priority"},
+		Command: []string{"优先级", "/priority"},
 		Admin:   true,
 		Handle: func(sender *Sender) interface{} {
 			priority := Int(sender.Contents[0])
@@ -429,7 +429,7 @@ var codeSignals = []CodeSignal{
 		},
 	},
 	{
-		Command: []string{"cmd", "command", "命令"},
+		Command: []string{"/cmd", "/command", "命令"},
 		Admin:   true,
 		Handle: func(sender *Sender) interface{} {
 			ct := sender.JoinContens()
@@ -441,7 +441,7 @@ var codeSignals = []CodeSignal{
 		},
 	},
 	{
-		Command: []string{"环境变量", "environments", "envs"},
+		Command: []string{"环境变量", "/environments", "/envs"},
 		Admin:   true,
 		Handle: func(_ *Sender) interface{} {
 			rt := []string{}
@@ -456,7 +456,7 @@ var codeSignals = []CodeSignal{
 		},
 	},
 	{
-		Command: []string{"get-env", "env", "e"},
+		Command: []string{"/get-env", "/env", "/e"},
 		Admin:   true,
 		Handle: func(sender *Sender) interface{} {
 			ct := sender.JoinContens()
@@ -471,7 +471,7 @@ var codeSignals = []CodeSignal{
 		},
 	},
 	{
-		Command: []string{"set-env", "se", "export"},
+		Command: []string{"/set-env", "/se", "/export"},
 		Admin:   true,
 		Handle: func(sender *Sender) interface{} {
 			env := &Env{}
@@ -493,7 +493,7 @@ var codeSignals = []CodeSignal{
 		},
 	},
 	{
-		Command: []string{"unset-env", "ue", "unexport", "de"},
+		Command: []string{"/unset-env", "/ue", "/unexport", "/de"},
 		Admin:   true,
 		Handle: func(sender *Sender) interface{} {
 			UnExportEnv(&Env{
@@ -537,7 +537,7 @@ var codeSignals = []CodeSignal{
 		},
 	},
 	{
-		Command: []string{"reply", "回复"},
+		Command: []string{"/reply", "回复"},
 		Admin:   true,
 		Handle: func(sender *Sender) interface{} {
 			if len(sender.Contents) >= 2 {
@@ -549,7 +549,7 @@ var codeSignals = []CodeSignal{
 		},
 	},
 	{
-		Command: []string{"help", "助力"},
+		Command: []string{"/help", "助力"},
 		Admin:   true,
 		Handle: func(sender *Sender) interface{} {
 			sender.handleJdCookies(func(ck *JdCookie) {
@@ -560,7 +560,7 @@ var codeSignals = []CodeSignal{
 		},
 	},
 	{
-		Command: []string{"tool", "工具人", "unhelp", "取消助力"},
+		Command: []string{"/tool", "工具人", "/unhelp", "取消助力"},
 		Admin:   true,
 		Handle: func(sender *Sender) interface{} {
 			sender.handleJdCookies(func(ck *JdCookie) {
@@ -571,7 +571,7 @@ var codeSignals = []CodeSignal{
 		},
 	},
 	{
-		Command: []string{"屏蔽", "hack"},
+		Command: []string{"屏蔽", "/hack"},
 		Admin:   true,
 		Handle: func(sender *Sender) interface{} {
 			sender.handleJdCookies(func(ck *JdCookie) {
@@ -582,7 +582,7 @@ var codeSignals = []CodeSignal{
 		},
 	},
 	{
-		Command: []string{"取消屏蔽", "unhack"},
+		Command: []string{"取消屏蔽", "/unhack"},
 		Admin:   true,
 		Handle: func(sender *Sender) interface{} {
 			sender.handleJdCookies(func(ck *JdCookie) {
